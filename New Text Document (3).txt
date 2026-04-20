@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linguistics Interactive Hub - Full Units 3 & 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .custom-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .option-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #f1f5f9;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #6366f1;
+            background: #f5f3ff;
+        }
+
+        .correct {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534 !important;
+        }
+
+        .wrong {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+
+        .nav-btn {
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn.active {
+            background: #6366f1;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">
+                Linguistics <span class="text-indigo-600">Master Hub</span>
+            </h1>
+            <p class="text-slate-500 font-medium italic">Comprehensive Revision: Unit 3 & 4 (Full Version)</p>
+            
+            <nav class="flex flex-wrap justify-center gap-2 mt-8">
+                <button onclick="loadUnit(3)" id="nav-3" class="nav-btn active px-8 py-2.5 rounded-full font-bold text-sm bg-white border border-slate-200 uppercase tracking-wider">Unit 3</button>
+                <button onclick="loadUnit(4)" id="nav-4" class="nav-btn px-8 py-2.5 rounded-full font-bold text-sm bg-white border border-slate-200 uppercase tracking-wider">Unit 4</button>
+            </nav>
+        </header>
+
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="custom-card p-5 rounded-3xl text-center">
+                <p class="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-1">Điểm Số</p>
+                <p id="score-val" class="text-3xl font-black text-indigo-600">0</p>
+            </div>
+            <div class="custom-card p-5 rounded-3xl text-center">
+                <p class="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-1">Tiến Độ</p>
+                <p id="progress-val" class="text-3xl font-black text-slate-800">0/0</p>
+            </div>
+        </div>
+
+        <div id="task-container" class="space-y-6 pb-20"></div>
+    </div>
+
+    <script>
+        const database = {
+            3: {
+                title: "Language and Society",
+                questions: [
+                    { type: 'fill', q: "1. Each society is composed of people who are in ______ with each other.", a: "contact" },
+                    { type: 'fill', q: "2. Language is used to help societies ______.", a: "develop" },
+                    { type: 'fill', q: "3. And in turn, ______ factors affect language.", a: "social" },
+                    { type: 'fill', q: "4. Language is used to perform various ______ in different contexts of our daily lives.", a: "functions" },
+                    { type: 'fill', q: "5. People choose languages to pass across ______.", a: "messages" },
+                    { type: 'mcq', q: "6. Users of language have to choose actual ______ to realize the meaning in their communications.", opts: ["forms", "words", "gestures", "structures"], a: 3 },
+                    { type: 'mcq', q: "7. There are three _____ in language that correspond to the tasks to be performed: ideational, interpersonal, and the textual.", opts: ["functions", "rules", "structures", "levels"], a: 0 },
+                    { type: 'mcq', q: "8. The ideational function says something about the state of _____ in the world.", opts: ["people", "affairs", "events", "nature"], a: 2 },
+                    { type: 'mcq', q: "9. The interpersonal function says something about the state of the _____ relations between those who are interacting.", opts: ["semantic", "social", "pragmatic", "functional"], a: 1 },
+                    { type: 'mcq', q: "10. The textual function says something about the organization of the _____ as a message.", opts: ["structure", "text", "message", "conversation"], a: 0 },
+                    { type: 'mcq', q: "16. Vietnam is a _____ country, which has at least 54 languages spoken.", opts: ["multilingual", "bilingual", "monolingual", "unilingual"], a: 0 },
+                    { type: 'mcq', q: "17. Vietnamese has three major regions. People in these regions speak Vietnamese with different _____.", opts: ["dialects", "words", "accents", "languages"], a: 2 },
+                    { type: 'mcq', q: "18. When students enter universities, they continue to study English as a ______ language.", opts: ["native", "foreign", "regional", "official"], a: 1 },
+                    { type: 'mcq', q: "19. Vietnamese government and authorities encourage people to learn and use English in the era of integration and ______.", opts: ["globalization", "education", "stability", "tradition"], a: 0 },
+                    { type: 'mcq', q: "20. Those who are fluent in English can earn very ______ salaries, especially in foreign companies.", opts: ["low", "average", "high", "unstable"], a: 2 },
+                    { type: 'mcq', q: "21. The differences between spoken and written modes are not ______.", opts: ["temporary", "similar", "predictable", "absolute"], a: 3 },
+                    { type: 'mcq', q: "22. Some spoken texts will be more like ______ texts than others.", opts: ["printed", "visual", "written", "formal"], a: 2 },
+                    { type: 'mcq', q: "23. Compared to written language, spoken language tends to be less ______.", opts: ["precise", "expressive", "interactive", "grammatical"], a: 0 },
+                    { type: 'mcq', q: "24. Written language is often more ______ and sophisticated than spoken language.", opts: ["casual", "articulate", "vague", "playful"], a: 1 },
+                    { type: 'mcq', q: "25. The choice of words often depends on the user’s immediate ______.", opts: ["knowledge", "grammar", "culture", "need"], a: 3 }
+                ]
+            },
+            4: {
+                title: "Speech Acts and Speech Events",
+                questions: [
+                    { type: 'mcq', q: "1. The two basic concepts in language _____ are speech acts and speech events.", opts: ["use", "teaching", "learning", "change"], a: 0 },
+                    { type: 'mcq', q: "2. The speech act and speech event theories are based on the interpretation of _____.", opts: ["conversations", "gestures", "speeches", "writings"], a: 2 },
+                    { type: 'mcq', q: "3. These theories will help us understand the interpretation of _____ language in the larger society.", opts: ["collective", "individual", "cultural", "social"], a: 1 },
+                    { type: 'mcq', q: "4. Speech acts and speech events deal with how language is performed in _____.", opts: ["society", "literature", "grammar", "dictionaries"], a: 0 },
+                    { type: 'mcq', q: "5. Language is used in order to play specific functions in communicative _____.", opts: ["actions", "contacts", "messages", "choices"], a: 1 },
+                    { type: 'mcq', q: "6. Meaning and _____ of language are the aspects linguists have paid their attention to.", opts: ["grammar", "pronunciation", "usage", "vocabulary"], a: 2 },
+                    { type: 'mcq', q: "7. The information of language use in linguistic groups is the ____.", opts: ["subject", "result", "objective", "opinion"], a: 2 },
+                    { type: 'mcq', q: "8. Linguists pay more attention to the situations in which _____ languages are spoken.", opts: ["official", "international", "minority", "universal"], a: 2 },
+                    { type: 'mcq', q: "9. Linguists _____ linguistic minorities with their stable status in the mother tongue.", opts: ["defend", "ignore", "attack", "abandon"], a: 0 },
+                    { type: 'mcq', q: "10. Speech act is an utterance as a functional unit in _____.", opts: ["grammar", "literature", "vocabulary", "communication"], a: 3 },
+                    { type: 'mcq', q: "11. When we make up a sentence, it has not only meaning but also some _____.", opts: ["structure", "function", "pronunciation", "vocabulary"], a: 1 },
+                    { type: 'mcq', q: "12. Speech acts are divided into four important _____.", opts: ["categories", "languages", "meanings", "accents"], a: 0 },
+                    { type: 'mcq', q: "13. Locutionary meaning refers to the _____ meaning of an utterance.", opts: ["figurative", "contextual", "literal", "implied"], a: 2 },
+                    { type: 'mcq', q: "14. An illocutionary act is using a sentence to perform a _____.", opts: ["gesture", "function", "description", "statement"], a: 1 },
+                    { type: 'mcq', q: "15. Perlocutionary act is the ___ or effects that are produced by means of saying something.", opts: ["intentions", "structures", "meanings", "results"], a: 3 },
+                    { type: 'mcq', q: "16. Propositional act has to do with the _____ of utterances (referring and predicating).", opts: ["structure", "meaning", "content", "function"], a: 2 },
+                    { type: 'mcq', q: "17. The representative describes a state of _____ in the world.", opts: ["affairs", "events", "issues", "conditions"], a: 0 },
+                    { type: 'mcq', q: "18. The commissive speech act commits the speaker to a course of action, such as ______.", opts: ["apologizing", "describing", "questioning", "promising"], a: 3 },
+                    { type: 'mcq', q: "19. The _____ speech act changes the world by bringing about or altering the state of affairs it names.", opts: ["commissive", "expressive", "declarative", "directive"], a: 2 },
+                    { type: 'mcq', q: "20. The ____ speech act intends to get the listener to carry out an action.", opts: ["declarative", "commissive", "expressive", "directive"], a: 3 },
+                    { type: 'mcq', q: "21. The expressive speech act indicates the speaker’s ____ about something.", opts: ["attitude", "request", "command", "intention"], a: 0 },
+                    { type: 'mcq', q: "22. The rogative speech act refers to a special kind of directives which deals with requests for ____.", opts: ["advice", "information", "permission", "commands"], a: 1 },
+                    { type: 'mcq', q: "23. A speech event relates to social ____ events involving communication.", opts: ["transactional", "grammatical", "interactional", "functional"], a: 2 },
+                    { type: 'mcq', q: "24. Setting is the ____ in which people use language to be in communicative contact.", opts: ["meaning", "structure", "message", "context"], a: 3 },
+                    { type: 'mcq', q: "25. People who take part in the speech situation are called ____.", opts: ["participants", "listeners", "speakers", "observers"], a: 0 },
+                    { type: 'mcq', q: "26. Which term refers to the results and goals of each speech situation?", opts: ["Participants", "Ends", "Means", "Forms"], a: 1 },
+                    { type: 'mcq', q: "27. Which aspect of speech situations refers to the forms and contents of acts?", opts: ["Functions", "Contexts", "Sequences", "Intentions"], a: 2 },
+                    { type: 'mcq', q: "28. Which of the following is being communicated in act sequences?", opts: ["Emotion", "Information", "Thought", "Intention"], a: 1 },
+                    { type: 'mcq', q: "29. What does the key of a speech event refer to?", opts: ["Manner", "Function", "Setting", "Content"], a: 0 },
+                    { type: 'mcq', q: "30. Which aspect of communication does instrumentality refer to?", opts: ["Purpose", "Channel/Code", "Message", "Grammar"], a: 1 },
+                    { type: 'mcq', q: "31. Which aspect do norms deal with in communication?", opts: ["Vocabulary", "Grammar", "Pronunciation", "Reaction"], a: 3 },
+                    { type: 'mcq', q: "32. Which aspect of communication in the speech context is referred to as genre?", opts: ["Style", "Context", "Purpose", "Structure"], a: 0 },
+                    { type: 'mcq', q: "33. What aspect of speech events ensures that communication is adequately understood?", opts: ["Expression", "Interpretation", "Translation", "Imitation"], a: 1 },
+                    { type: 'mcq', q: "34. Which aspect aims to show the bearer of human communication relating to society’s use?", opts: ["Structure", "Meaning", "Sound", "Gesture"], a: 1 },
+                    { type: 'mcq', q: "35. Which basic aspect of speech in a given society develops speech acts?", opts: ["Functions", "Gestures", "Sounds", "Sentences"], a: 0 },
+                    { type: 'mcq', q: "36. What do the functions of speech in a given society develop?", opts: ["Sounds", "Gestures", "Speech acts", "Functions"], a: 2 },
+                    { type: 'mcq', q: "TF-1. How language is performed in society is what speech acts and speech events dealt with.", opts: ["True", "False"], a: 0 },
+                    { type: 'mcq', q: "TF-2. Linguists have paid their attention to meaning and functions of language.", opts: ["True", "False"], a: 1 },
+                    { type: 'mcq', q: "TF-3. Linguists pay more attention to the situations in which minority languages are spoken.", opts: ["True", "False"], a: 0 },
+                    { type: 'mcq', q: "TF-4. Linguists haven’t supported linguistics minorities.", opts: ["True", "False"], a: 1 },
+                    { type: 'mcq', q: "TF-5. Linguists have researched on speech situations in community in different forms emphasizing varieties over attitudes.", opts: ["True", "False"], a: 1 }
+                ]
+            }
+        };
+
+        let currentUnit = 3; let score = 0; let completed = new Set();
+
+        function loadUnit(unitId) {
+            currentUnit = unitId; score = 0; completed.clear();
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-indigo-600', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+            document.getElementById(`nav-${unitId}`).classList.add('active');
+            renderTasks(); updateStats();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('task-container');
+            container.innerHTML = `<h2 class="text-xl font-bold text-slate-800 mb-6 px-2 border-l-4 border-indigo-500 pl-4">${database[currentUnit].title}</h2>`;
+            database[currentUnit].questions.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = "custom-card p-6 rounded-[2rem] mb-6 shadow-sm";
+                let html = `<p class="text-lg font-bold text-slate-800 mb-5 leading-relaxed">${item.q}</p>`;
+                
+                if(item.type === 'fill') {
+                    html += `<div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="ans-${idx}" placeholder="Type answer..." class="flex-1 bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-3 outline-none focus:border-indigo-400 transition-all font-medium">
+                        <button onclick="checkFill(${idx}, '${item.a}')" class="px-8 py-3 bg-slate-900 text-white rounded-2xl font-bold hover:bg-indigo-600 transition-all active:scale-95">Check</button>
+                    </div><p id="fdb-${idx}" class="mt-3 text-sm font-bold hidden"></p>`;
+                } else {
+                    html += `<div class="grid grid-cols-1 gap-3">`;
+                    item.opts.forEach((opt, oi) => {
+                        html += `<button onclick="checkMCQ(${idx}, ${oi}, ${item.a}, this)" class="option-btn w-full text-left p-4 rounded-2xl bg-white flex items-center group">
+                            <span class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center mr-4 text-xs font-black text-slate-500 group-hover:bg-indigo-500 group-hover:text-white transition-all">${String.fromCharCode(65+oi)}</span>
+                            <span class="font-semibold text-slate-700">${opt}</span>
+                        </button>`;
+                    });
+                    html += `</div>`;
+                }
+                card.innerHTML = html; container.appendChild(card);
+            });
+        }
+
+        function checkFill(idx, cor) {
+            const key = `u${currentUnit}-q${idx}`;
+            if(completed.has(key)) return;
+            const input = document.getElementById(`ans-${idx}`);
+            const fdb = document.getElementById(`fdb-${idx}`);
+            if(input.value.trim().toLowerCase() === cor.toLowerCase()) {
+                input.className = "flex-1 bg-green-50 border-2 border-green-500 rounded-2xl px-5 py-3 text-green-700 font-bold";
+                score += 10; fdb.innerText = "Correct! ✨"; fdb.className = "mt-3 text-sm font-bold text-green-600";
+            } else {
+                input.className = "flex-1 bg-red-50 border-2 border-red-500 rounded-2xl px-5 py-3 text-red-700 font-bold";
+                fdb.innerText = `Incorrect. Ans: ${cor}`; fdb.className = "mt-3 text-sm font-bold text-red-600";
+            }
+            fdb.classList.remove('hidden'); completed.add(key); updateStats();
+        }
+
+        function checkMCQ(qIdx, sel, cor, btn) {
+            const key = `u${currentUnit}-q${qIdx}`;
+            if(completed.has(key)) return;
+            const btns = btn.parentElement.querySelectorAll('button');
+            if(sel === cor) { btn.classList.add('correct'); score += 10; } 
+            else { btn.classList.add('wrong'); btns[cor].classList.add('correct'); }
+            btns.forEach(b => b.disabled = true); completed.add(key); updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('score-val').innerText = score;
+            const total = database[currentUnit].questions.length;
+            document.getElementById('progress-val').innerText = `${completed.size}/${total}`;
+        }
+
+        window.onload = () => loadUnit(3);
+    </script>
+</body>
+</html>
