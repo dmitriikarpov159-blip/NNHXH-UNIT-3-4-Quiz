@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linguistics Master Hub - Full Units 5 & 6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        :root { --primary: #4f46e5; --secondary: #9333ea; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; color: #1e293b; }
+        .glass-card { background: white; border: 1px solid #e2e8f0; transition: all 0.3s ease; }
+        .btn-grad { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .correct-choice { background-color: #22c55e !important; border-color: #16a34a !important; color: white !important; }
+        .wrong-choice { background-color: #ef4444 !important; border-color: #b91c1c !important; color: white !important; }
+        .tab-active { background: white; color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <header class="pt-12 pb-8 px-4 text-center max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4 tracking-tight">Linguistics <span class="text-indigo-600">Mastery</span></h1>
+        <p class="text-slate-500 font-medium italic">Full Question Bank: Unit 5 & Unit 6</p>
+        <div class="mt-10 inline-flex p-1 bg-slate-200 rounded-2xl">
+            <button onclick="switchUnit(5)" id="btn-u5" class="px-6 py-3 rounded-xl font-bold transition-all">Unit 5: Variations</button>
+            <button onclick="switchUnit(6)" id="btn-u6" class="px-6 py-3 rounded-xl font-bold transition-all">Unit 6: Pidgins & Creoles</button>
+        </div>
+    </header>
+
+    <div class="max-w-3xl mx-auto px-4 sticky top-4 z-50">
+        <div class="glass-card rounded-3xl p-5 shadow-xl flex items-center justify-between border-none">
+            <div class="flex items-center gap-4 pl-2">
+                <span class="text-2xl">⭐</span>
+                <div>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Score</p>
+                    <p id="score" class="text-2xl font-black text-indigo-600 leading-none">0</p>
+                </div>
+            </div>
+            <div class="flex-1 max-w-[200px] text-right">
+                <p id="progress-text" class="text-xs font-bold text-slate-400 mb-1">0/0 Completed</p>
+                <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full btn-grad transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main id="quiz-container" class="max-w-3xl mx-auto px-4 mt-12 space-y-10"></main>
+
+    <script>
+        const unit5Data = {
+            writing: [
+                { id: 'u5w1', q: "What are dialects different from other varieties?", keywords: ["pronunciation", "grammar", "vocabulary"], hint: "Dialects are different in pronunciation, grammar and vocabulary." },
+                { id: 'u5w2', q: "What can we know when we listen to a speaker’s accent: jargon or dialect?", keywords: ["dialect"], hint: "When we listen to a speaker’s accent, we know his/her dialect." },
+                { id: 'u5w3', q: "Are dialects different in different individuals or regions?", keywords: ["yes", "regions"], hint: "Yes, dialects are different in different individuals or regions." },
+                { id: 'u5w4', q: "Where is a standard language used?", keywords: ["schools", "media"], hint: "A standard language is used at schools and by the media." },
+                { id: 'u5w5', q: "What is dialectology?", keywords: ["branch", "linguistics", "regions"], hint: "Dialectology is branch of linguistics which studies variations in different regions." },
+                { id: 'u5f1', q: "Fill: The issue of social dialects is extremely ___ when many people live in a place.", keywords: ["complex"], hint: "Answer: complex" },
+                { id: 'u5f2', q: "Fill: In many nations, ___ English is used by governments and media.", keywords: ["standard"], hint: "Answer: standard" },
+                { id: 'u5f3', q: "Fill: A ___ is characteristic of a social background or status.", keywords: ["sociolect"], hint: "Answer: sociolect" }
+            ],
+            mcqs: [
+                { q: "Language is composed of different factors in _____ networks.", opts: ["common", "different", "social", "cultural"], a: 2 },
+                { q: "Idiollect is the speech variety of a/an _____ speaker.", opts: ["social", "individual", "regional", "national"], a: 1 },
+                { q: "A language used in a state or a region is called a/an ____.", opts: ["pidgin", "slang", "jargon", "dialect"], a: 3 },
+                { q: "The language _____ brings people together in a common way.", opts: ["community", "variation", "region", "feature"], a: 1 },
+                { q: "What exists as clusters of people sharing common linguistic behavior?", opts: ["Varieties", "Registers", "Dialects", "Communication"], a: 2 },
+                { q: "Which dialects are based on geographically-isolated groups?", opts: ["Regional dialects", "Standard languages", "Social dialects", "Idiolects"], a: 0 },
+                { q: "Language variation may appear at all levels.", opts: ["national", "structural", "standard", "grammatical"], a: 3 },
+                { q: "At an early age, children are inclined to create _____.", opts: ["norm", "genre", "idiolects", "standard"], a: 2 },
+                { q: "Sociolinguists think an idiolect is a continuum of _________.", opts: ["state", "community", "dialects", "network"], a: 2 },
+                { q: "An A/ ______ refers to pronunciation only.", opts: ["accent", "idiolect", "register", "dialect"], a: 0 },
+                { q: "What is invented and spoken by only one or a very few people?", opts: ["An idioglossia", "An accent", "A region", "A dialect"], a: 0 },
+                { q: "Small differences in the way people talk create a ______.", opts: ["maximum dialect", "minimal dialect", "current dialect", "varied dialect"], a: 1 },
+                { q: "Variation between groups is called ________ variation.", opts: ["national", "structural", "standard", "intergroup"], a: 3 },
+                { q: "A dialect has differences in pronunciation, grammar, and ________.", opts: ["spelling", "writing", "vocabulary", "meaning"], a: 2 },
+                { q: "Isolation can be across time, geography, or _________.", opts: ["political", "cultural", "economic", "social"], a: 3 },
+                { q: "British, American, and _____ English are examples of regional use.", opts: ["Australian", "Japanese", "German", "Italian"], a: 0 },
+                { q: "Mekong River region people in Vietnam often use _____ in conversations.", opts: ["local words", "foreign words", "idiolects", "sociolects"], a: 0 },
+                { q: "Languages in different parts of China are often ______.", opts: ["intelligible", "grammatical", "simple", "unintelligible"], a: 3 },
+                { q: "When an idiolect develops within a household, it is a/an ______.", opts: ["ecolect", "sociolect", "dialect", "idiolect"], a: 0 },
+                { q: "Forensic linguists use ______ to identify a writer's identity.", opts: ["dialects", "idiolects", "sociolects", "idiologgssia"], a: 1 },
+                { q: "The private language of twins is called:", opts: ["cryptophasia", "twin dialect", "ecolect", "sociolect"], a: 0 },
+                { q: "Social status is based on rank, prestige, and ______.", opts: ["age", "social class", "education", "ethnicity"], a: 1 },
+                { q: "Standard English is used in government and education in ______.", opts: ["Singapore", "France", "Japan", "Vietnam"], a: 0 },
+                { q: "Idiolect changes are ______ when people contact each other.", opts: ["temporary", "limited", "continuous", "rare"], a: 2 },
+                { q: "In a group, no individual uses the ______ language all the time.", opts: ["simple", "same", "different", "easy"], a: 1 },
+                { q: "Sociolects are based on membership in a ______ group.", opts: ["longstanding", "temporary", "regional", "casual"], a: 0 },
+                { q: "North, Central, and South Vietnam speak with different ______.", opts: ["idiolects", "registers", "accents", "sociolects"], a: 2 },
+                { q: "Saying 'hello' vs 'howdy' is an example of ______.", opts: ["idiolect", "sociolect", "register", "dialect"], a: 3 },
+                { q: "The unique way of speaking of one person is a/an ______.", opts: ["Dialect", "Idiolect", "Sociolect", "Register"], a: 1 },
+                { q: "Which variety has the highest status in a community?", opts: ["Dialect", "Slang", "Standard", "Jargon"], a: 2 }
+            ]
+        };
+
+        const unit6Data = {
+            writing: [
+                { id: 'u6w1', q: "Who often uses pidgins?", keywords: ["working", "educated"], hint: "Working people or little-educated ones." },
+                { id: 'u6w2', q: "What do pidgins become when children learn them as a first language?", keywords: ["creoles"], hint: "They become creoles." },
+                { id: 'u6w3', q: "What is a pidgin called in communication terms?", keywords: ["contact"], hint: "A contact language." },
+                { id: 'u6tf1', q: "T/F: In business, people use pidgin to contact with each other.", keywords: ["true"], isTF: true, a: true, hint: "True" },
+                { id: 'u6tf2', q: "T/F: There are at least 3 languages in a pidginization process.", keywords: ["true"], isTF: true, a: true, hint: "True" },
+                { id: 'u6tf3', q: "T/F: Pidgins are standard languages.", keywords: ["false"], isTF: true, a: false, hint: "False (Not standard)" }
+            ],
+            mcqs: [
+                { q: "A ______ is the variety characteristic of a social background.", opts: ["sociolect", "dialect", "pidgin", "speech"], a: 0 },
+                { q: "______ are more flexible than status and vary by situation.", opts: ["Creolisation", "Speech", "Sociology", "Lects"], a: 3 },
+                { q: "People in remote places develop ______ linguistic characteristics.", opts: ["confusing", "simple", "distinguishing", "easy"], a: 2 },
+                { q: "Dialectology examines language ______ and change.", opts: ["history", "variation", "function", "idiolect"], a: 1 },
+                { q: "Language is not a ______ structure but a sum of dialects.", opts: ["monolithic", "social", "regional", "grammatical"], a: 0 },
+                { q: "The standard variety is used in ______ life.", opts: ["private", "cultural", "public", "family"], a: 2 },
+                { q: "Sociolects evolve from ______ speech.", opts: ["global", "regional", "academic", "written"], a: 1 },
+                { q: "Standard variety is used by the most ______ people.", opts: ["private", "cultural", "educated", "public"], a: 2 },
+                { q: "A pidgin is a ______ language.", opts: ["Standard", "Spoken", "Contact", "Written"], a: 2 },
+                { q: "Process of simplified language becoming a native language:", opts: ["Standardisation", "Pidginisation", "Creolisation", "Code-switching"], a: 2 },
+                { q: "Which is NOT an example of a pidgin?", opts: ["English", "French", "Russian", "Latin"], a: 3 },
+                { q: "Pidginization involves ______ structural complexity.", opts: ["Combining", "Reducing", "Changing", "Correcting"], a: 1 },
+                { q: "Study of pidgins belongs to:", opts: ["Syntax", "Phonology", "Sociolinguistics", "Semantics"], a: 2 },
+                { q: "Pidgins make ______ possible in complex setups.", opts: ["Communication", "Confusion", "Silence", "Isolation"], a: 0 },
+                { q: "The language that provides vocabulary to a pidgin is the:", opts: ["Mother", "Lexifier", "Base", "Root"], a: 1 },
+                { q: "Pidgins are usually used for ______ purposes.", opts: ["emotional", "literary", "practical", "religious"], a: 2 },
+                { q: "A creole is more ______ than a pidgin.", opts: ["simple", "limited", "complex", "vague"], a: 2 },
+                { q: "Process of a Creole moving toward a standard:", opts: ["Decreolisation", "Pidginisation", "Slang", "Jargon"], a: 0 },
+                { q: "How is a pidgin different from native languages?", opts: ["Admixture", "Easy use", "Simplification", "All correct"], a: 3 },
+                { q: "When people of many races live together, dialects become ______.", opts: ["simple", "normal", "complex", "easy"], a: 2 },
+                { q: "Each member expresses a linguistic ______.", opts: ["accent", "code", "register", "dialect"], a: 1 },
+                { q: "Pidgins emerge among people who do ______.", opts: ["business", "science", "art", "music"], a: 0 },
+                { q: "A sociolect evolves from ______ speech.", opts: ["global", "regional", "academic", "written"], a: 1 },
+                { q: "Standard variety holds the highest ______.", opts: ["status", "price", "volume", "length"], a: 0 },
+                { q: "Where does language change take place in pidgin formation?", opts: ["Villages", "Speech communities", "Schools", "Families"], a: 1 },
+                { q: "British English is a ______ to non-native speakers.", opts: ["first language", "second language", "sociolect", "dialect"], a: 1 },
+                { q: "Internal change occurs in which communities?", opts: ["Formal", "Internal", "Spoken", "Written"], a: 1 },
+                { q: "People in Hong Kong use ______ of English.", opts: ["foreign", "varieties", "accents", "registers"], a: 1 },
+                { q: "Sociolects are based on ______ membership.", opts: ["temporary", "separate", "regional", "grammatical"], a: 1 },
+                { q: "Standard English is used at ______.", opts: ["private", "public", "schools", "homes"], a: 2 }
+            ]
+        };
+
+        let currentScore = 0; let answered = new Set(); let totalCount = 0;
+
+        function switchUnit(n) {
+            currentScore = 0; answered.clear();
+            document.getElementById('btn-u5').className = n===5 ? "px-6 py-3 rounded-xl font-bold tab-active" : "px-6 py-3 rounded-xl font-bold text-slate-500";
+            document.getElementById('btn-u6').className = n===6 ? "px-6 py-3 rounded-xl font-bold tab-active" : "px-6 py-3 rounded-xl font-bold text-slate-500";
+            render(n===5 ? unit5Data : unit6Data);
+            updateUI();
+        }
+
+        function render(data) {
+            const container = document.getElementById('quiz-container'); container.innerHTML = '';
+            totalCount = data.writing.length + data.mcqs.length;
+            const s1 = document.createElement('div');
+            s1.innerHTML = `<h2 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 px-2">Section A: Writing</h2>`;
+            data.writing.forEach(q => {
+                const card = document.createElement('div'); card.className = "glass-card p-6 rounded-3xl mb-6 shadow-sm";
+                card.innerHTML = `<p class="text-lg font-bold mb-4">${q.q}</p><div class="flex gap-2"><input type="text" id="in-${q.id}" class="flex-1 bg-slate-50 border-2 border-transparent rounded-xl px-4 py-2 focus:border-indigo-400 outline-none"><button onclick="checkW('${q.id}',[${q.keywords.map(k=>`'${k}'`)}])" class="px-4 py-2 btn-grad text-white rounded-xl font-bold">Check</button></div><p id="h-${q.id}" class="mt-2 text-sm text-slate-400 hidden">${q.hint}</p>`;
+                s1.appendChild(card);
+            });
+            container.appendChild(s1);
+            const s2 = document.createElement('div');
+            s2.innerHTML = `<h2 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 px-2 mt-10">Section B: MCQs</h2>`;
+            data.mcqs.forEach((q, i) => {
+                const card = document.createElement('div'); card.className = "glass-card p-6 rounded-3xl mb-6 shadow-sm";
+                const opts = q.opts.map((o, oi) => `<button onclick="checkM(this,${oi},${q.a},'m-${i}')" class="w-full text-left p-3 rounded-xl border-2 border-slate-50 mb-2 flex items-center group"><span class="w-6 h-6 rounded bg-white flex items-center justify-center mr-3 font-bold text-indigo-500 border border-slate-100">${String.fromCharCode(65+oi)}</span><span class="font-medium">${o}</span></button>`).join('');
+                card.innerHTML = `<p class="text-lg font-bold mb-4">${q.q}</p>${opts}`;
+                s2.appendChild(card);
+            });
+            container.appendChild(s2);
+        }
+
+        function checkW(id, keys) {
+            if(answered.has(id)) return;
+            const input = document.getElementById(`in-${id}`);
+            if(keys.some(k => input.value.toLowerCase().includes(k.toLowerCase()))) {
+                input.className = "flex-1 bg-green-50 border-2 border-green-500 rounded-xl px-4 py-2"; currentScore+=10; answered.add(id);
+            } else { input.className = "flex-1 bg-red-50 border-2 border-red-400 rounded-xl px-4 py-2"; document.getElementById(`h-${id}`).classList.remove('hidden'); }
+            updateUI();
+        }
+
+        function checkM(btn, sel, cor, id) {
+            if(answered.has(id)) return;
+            const btns = btn.parentElement.querySelectorAll('button'); btns.forEach(b => b.disabled = true);
+            if(sel === cor) { btn.classList.add('correct-choice'); currentScore+=10; } else { btn.classList.add('wrong-choice'); btns[cor].classList.add('correct-choice'); }
+            answered.add(id); updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('score').innerText = currentScore;
+            document.getElementById('progress-text').innerText = `${answered.size}/${totalCount} Completed`;
+            document.getElementById('progress-bar').style.width = (answered.size / totalCount * 100) + '%';
+        }
+        window.onload = () => switchUnit(5);
+    </script>
+</body>
+</html>
